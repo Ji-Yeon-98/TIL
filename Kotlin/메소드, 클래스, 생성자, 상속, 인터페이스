@@ -1,0 +1,975 @@
+## 1. 메소드 설계
+
+### 1) 정의
+
+- 특정한 로직을 가지는 소스 코드에 이름을 붙일 수 있음
+- 메소드 : 이름이 붙은 로직
+
+```kotlin
+fun 메소드이름(변수명:자료형, 변수명:자료형 ....) : 반환자료형 {
+소스코드 로직
+}
+```
+
+</br>
+
+### 2) 특징
+
+- 로직 추상화 해 놓고 상황에 맞게 사용
+- 코드의 재사용성 높임
+
+</br>
+
+### 3) 예시
+
+- 두 개의 숫자를 더하는 메소드 만들고, 전달하는 숫자에 따라 덧셈 결과 알려줌
+
+```kotlin
+fun main() {
+    var num1 = readLine()!!.toInt()
+    var num2 = readLine()!!.toInt()
+
+    // sum이라는 이름의 메소드를 호출!
+    sum(num1, num2)
+}
+
+fun sum(num1:Int, num2:Int) {
+    var result = num1 + num2
+    println("num1과 num2의 덧셈결과는 ${result}입니다.")
+}
+```
+
+- 수학 점수를 입력 받아 등급을 출력
+
+```kotlin
+fun main() {
+    var myMathScore = readLine()!!.toInt()
+    
+    var myRank = checkRank(myMathScore)
+    println("나의 등급은 : ${myRank}")
+}
+
+fun checkRank(score:Int) : String {
+		return when(score) {
+			in 90..100 ->	return "A"
+			in 80..89 -> return "B"
+			in 70..79 -> return "C"
+			else -> return "D"
+		}
+}
+```
+
+</br>
+</br>
+
+## 2. 클래스 설계
+
+### 1) 객체 지향 프로그래밍
+
+- OOP (Object Oriented Programming)
+- 코틀린 = 모든 것이 클래스 형태, 객체화 가능
+- 객체들 간의 적절한 결합 통해 유지 보수 쉽게
+- 5대 키워드
+    
+    클래스, 추상화, 캡슐화, 상속, 다형성
+    
+
+</br>
+
+### 2) 클래스
+
+- 클래스 = 프로그램의 각 요소별 설계도
+- 정보(프로퍼티) + 행위(메소드) 작성
+
+```kotlin
+class 클래스이름 {
+	  정보1
+		정보2
+
+		행위1
+		행위2
+}
+```
+
+- 특별한 클래스
+    - 데이터 클래스 (data class)
+        - 정보(프로퍼티)만 가지고 있는 클래스
+        - 기본 생성자에 1개 이상의 매개변수가 변수나 상수로 존재
+        - 아주 유용한 메소드 자동 생성
+            - hashCode(): 객체를 구분하기 위한 고유값을 리턴
+            - eauals(): 동일한 객체인지 비교해서 true 또는 false를 리턴
+            - copy(): 현재 객체의 모든 정보를 복사해서 새로운 객체를 리턴
+            - toString(): 현재 객체의 모든 정보(프로퍼티)를 예쁘게 출력
+            - getXXX()/setXXX(매개변수): 변수의 값을 리턴하거나 설정
+        
+        ```kotlin
+        data class 클래스이름 {
+        			정보1
+        			정보2
+        }
+        ```
+        
+    - 실드 클래스 (sealed class)
+        - 상속과 관련
+        - 상속 받을 수 있는 자식 클래스 미리 정의
+        - 무분별한 상속 방지 → 효율적으로 다형성 구현
+        
+        ```kotlin
+        sealed class 부모클래스 {
+        	class 자식클래스1 : 부모클래스생성자
+        	class 자식클래스2 : 부모클래스생성자
+        }
+        ```
+        
+    - 오브젝트 클래스 (object class)
+        - Java static 대신 사용
+        - 바로 메모리에 올라감 = 프로그램 실행하는 동시에 인스턴스
+
+</br>
+
+- 프로그램에서 사용하는 특정 캐릭터들의 설계도 작성
+
+```kotlin
+fun main() {
+
+}
+
+//캐릭터의 일관적인 정보 저장
+class Character {
+    //정보 (프로퍼티)
+    var name:String = "" //: 자료형 꼭 써줌
+    var hairColor:String = ""
+    var height:Double = 0.0
+
+    //행위 (메소드)
+    fun fireBall() {
+        println("파이어볼!")
+    }
+    fun compositing(device1:String, device2:String): String {
+        var device3 = device1 + device2
+        println("새로운 무기인 ${device3}입니다")
+        return device3
+    }
+}
+```
+
+</br>
+</br>
+
+## 3. 생성자의 활용
+
+### 1) 정의
+
+- 기본 생성자와 명시적 생성자 존재
+- 기본 생성자 : 이전까지 클래스 만들던 행위와 차이 X
+- 명시적 생성자 : 주 생성자와 부 생성자로 구분
+
+</br>
+
+### 2) 명시적 생성자 : 주 생성자 (Init)
+
+- 한 가지 형태의 클래스를 실체화 할 때 주 생성자 활용
+- 항상 <**이름, 머리색상, 키>**만 생성자에서 최초로 코드를 실행할 때는 주 생성자를 사용
+
+```kotlin
+fun main() {
+
+}
+
+// 클래스 선언부에 생성자를 명시함
+// 이름, 머리 컬러, 몸무게 세팅을 해주어야 class 실체화 가능 (실체화 : 메모리에 올리는 것)
+class Character(_name:String, _hairColor:String, _height:Double) {
+    var name:String = ""
+    var hairColor:String = ""
+    var height:Double = 0.0
+
+    // 생성자 : 매개변수를 직접 넘기지않음
+    // 실체화 될 때 최초로 실행할 코드
+    init {
+        println("매개변수없는 생성자 실행 완료!")
+    }
+
+    fun fireBall() {
+        println("파이어볼!")
+    }
+    fun compositing(device1:String, device2:String): String {
+        var device3 = device1 + device2
+        println("새로운 무기인 ${device3}입니다")
+        return device3
+    }
+}
+```
+
+</br>
+
+### 3) 명시적 생성자 : 부 생성자 (Constructor)
+
+- 여러 형태로 클래스를 실체화할 때 부 생성자 사용
+- **<이름, 머리색상, 키> or** **<이름, 머리색상>** 처럼 여러 개의 생성자를 통해 최초로 코드를 실행
+
+```kotlin
+//부 생성자 : class 안에 파라미터 있음
+class Character {
+    var name:String = ""
+    var hairColor:String = ""
+    var height:Double = 0.0
+
+    // 명시적 생성자 (Constructor)
+    // _name, _hairColor, _height와 같이 생성자에 변수를 넘기는 경우에 사용함
+		// 부생성자는 constructor 여러개 만들수 있음 -> 원하는 생성자 선택해서 최초 로직 만들 수 있
+constructor(_name:String, _hairColor:String, _height:Double) {
+        println("${_name}을 생성자로 넘겼어요")
+        println("${_hairColor}를 생성자로 넘겼어요")
+        println("${_height}를 생성자로 넘겼어요")
+    }
+
+constructor(_name:String, _hairColor:String) {
+        println("${_name}을 생성자로 넘겼어요")
+        println("${_hairColor}를 생성자로 넘겼어요")
+    }
+
+    fun fireBall() {
+        println("파이어볼!")
+    }
+    fun compositing(device1:String, device2:String): String {
+        var device3 = device1 + device2
+        println("새로운 무기인 ${device3}입니다")
+        return device3
+    }
+}
+```
+
+</br>
+</br>
+
+## 4. 객체
+
+### 1) 정의
+
+- 모든 인스턴스를 포함하는 개념
+- 객체 : 클래스 타입으로 선언된 것들
+
+</br>
+
+### 2) 인스턴스
+
+- 클래스 형태로 설계된 객체를 실체화 메모리에 올려놓으면 인스턴스 생성
+- 메모리 공간 차지
+
+</br>
+
+### 3) 클래스 실체화
+
+- 프로퍼티와 메소드를 작성한 클래스를 실체화해서 프로그램에 로딩
+- 정보와 행위가 그대로 로딩 X, 위치 정보를 메모리에 로딩 (특정 주소값 생성)
+- 객체의 위치 정보를 **변수에 저장**해두고 필요할 때 **참조**
+
+```kotlin
+fun main() {
+		// 불마법사로 객체화
+    var magicianOne = Character("불마법사", "red", 180.2)
+		println("${magicianOne.name}의 머리색상은 ${magicianOne.hairColor}입니다")
+		magicianOne.fireBall()
+
+		// 냉마법사로 객체화
+    var magicianTwo = Character("냉마법사", "blue", 162.2, 25, "여")
+		println("${magicianTwo.name}의 머리색상은 ${magicianTwo.hairColor}이고 나이는 ${magicianTwo.age}입니다.")
+		magicianTwo.fireBall()
+}
+
+class Character {
+    var name:String = ""
+    var hairColor:String = ""
+    var height:Double = 0.0
+    var age:Int = 0
+    var gender:String = ""
+
+    // 명시적 생성자 (Constructor)
+    // _name, _hairColor, _height와 같이 생성자에 변수를 넘기는 경우에 사용함
+    constructor(_name:String, _hairColor:String, _height:Double) {
+        println("${_name}을 생성자로 넘겼어요")
+        println("${_hairColor}를 생성자로 넘겼어요")
+        println("${_height}를 생성자로 넘겼어요")
+				name = _name
+				hairColor = _hairColor
+				height = _height
+    }
+    // _name, _hairColor, _height, _age, _gender와 같이 생성자에 변수를 넘기는 경우에 사용함
+    constructor(_name:String, _hairColor:String, _height:Double, _age:Int, _gender:String) {
+        println("${_name}을 생성자로 넘겼어요")
+        println("${_hairColor}를 생성자로 넘겼어요")
+        println("${_height}를 생성자로 넘겼어요")
+        println("${_age}를 생성자로 넘겼어요")
+        println("${_gender}를 생성자로 넘겼어요")
+
+				name = _name
+				hairColor = _hairColor
+				height = _height
+				age = _age
+				gender = _gender
+    }
+
+    fun fireBall() {
+        println("파이어볼!")
+    }
+    fun compositing(device1:String, device2:String): String {
+        var device3 = device1 + device2
+        println("새로운 무기인 ${device3}입니다")
+        return device3
+    }
+}
+```
+
+</br>
+</br>
+
+## 5. 상속
+
+### 1) 정의
+
+- 클래스(설계도) 간의 관계를 더욱 끈끈하게 만듦
+- 공통적인 요소들이 있다면 부모/자식 클래스를 구분해서 상속관계 만듦
+
+<aside>
+💡 **Kotlin**
+
+- final 키워드로 기본적인 상속 막아둠
+- 무분별한 상속으로 예상치 못한 흐름 방지
+- open 키워드 이용해 상속 관계 만듦
+</aside>
+
+</br>
+
+### 2) 특징
+
+- 다형성 구현
+- 클래스의 내용 변경할 때 부모 클래스만 변경하는 것으로 수고 줄임
+
+</br>
+
+### 3) 예시
+
+- 닭, 참새, 비둘기는 새라는 부모에서 출발
+
+```kotlin
+fun main() {
+    var bird = Bird()
+    var chicken = Chicken()
+    var sparrow = Sparrow()
+    var pigeon = Pigeon()
+
+    bird.fly()
+    chicken.fly()
+    sparrow.fly()
+    pigeon.fly()
+}
+
+open class Bird {
+    fun fly() {
+        println("새는 날아요~")
+    }
+}
+
+class Chicken : Bird() {
+
+}
+
+class Sparrow : Bird() {
+
+}
+
+class Pigeon : Bird() {
+
+}
+```
+
+- 부모 클래스에서 생성자를 활용하는 경우 자식에서 객체 생성 시 전달
+
+```kotlin
+fun main() {
+    var bird = Bird("새")
+    var chicken = Chicken("닭")
+    var sparrow = Sparrow("참새")
+    var pigeon = Pigeon("비둘기")
+
+    bird.fly()
+    chicken.fly()
+    sparrow.fly()
+    pigeon.fly()
+}
+
+open class Bird(name:String) {
+    var name: String = ""
+
+    init {
+        // this는 현재 클래스의 상태변수를 의미합니다
+        // var name: String = ""
+        this.name = name
+    }
+
+    fun fly() {
+        println("${name} 날아요~")
+    }
+
+}
+
+//부모 클래스가 생성자가 있기 때문에 자식도 파라미터에 값을 넘겨줘야됨
+class Chicken(name: String) : Bird(name) {
+
+}
+
+class Sparrow(name: String) : Bird(name) {
+
+}
+
+class Pigeon(name: String) : Bird(name) {
+
+}
+```
+
+</br>
+</br>
+
+## 6. 오버라이딩
+
+### 1) 정의
+
+- 상속받은 부모 클래스의 정보(프로퍼티)나 행위(메소드) 재설계
+- 주로 부모 클래스의 행위(메소드) 재설계
+
+</br>
+
+### 2) 특징
+
+- 공통적인 내용을 부모 클래스에서 관리하고, 자식 클래스의 개성 살리기 가능
+- 어차피 재설계하는 거라면 상속이나 오버라이딩 하는 이유
+    - 필요한 기능이 있을 때마다 별도의 이름으로 만들면 일관성 해침
+    - 재사용성 떨어져 유지보수 어려움
+
+</br>
+
+### 3) 예시
+
+- 단축키
+    
+    ```kotlin
+    **[오버라이딩 단축키]**
+    Control + O (Windows)
+    ```
+    
+- 각 개체마다 개성을 더하기
+
+```kotlin
+package com.example.myapplication
+
+fun main() {
+    var bird = Bird("새")
+    var chicken = Chicken("닭", 2)
+    var sparrow = Sparrow("참새", "갈색")
+    var pigeon = Pigeon("비둘기", "서울")
+
+    bird.fly()
+    chicken.fly()
+    sparrow.fly()
+    pigeon.fly()
+}
+
+open class Bird(name:String) {
+    var name: String = ""
+
+    init {
+        // this는 현재 클래스의 상태변수를 의미합니다
+        // var name: String = ""
+        this.name = name
+    }
+
+    //open : 메소드 오버라이딩 할 수 있게 만들어줌
+    open fun fly() {
+        println("${name}은 날아요~")
+    }
+
+}
+
+//주 생성자 : name, age -> Bird에 이름만 넘겨줌
+class Chicken(name: String, age: Int) : Bird(name) {
+    var age:Int = 0
+
+    init {
+        this.age = age
+    }
+
+    override fun fly() {
+//        super객체는 부모의 객체를 의미하며 자동으로 생성됨
+//        즉 부모객체의 fly메소드를 부르는 행위임
+//        필요없으니 주석처리완료
+//        super.fly()
+        println("${age}살의 ${name}가 날아봅니다~ 꼬끼오!")
+    }
+}
+
+class Sparrow(name: String, color: String) : Bird(name) {
+    var color:String = ""
+
+    init {
+        this.color = color
+    }
+
+    override fun fly() {
+//        super객체는 부모의 객체를 의미하며 자동으로 생성됨
+//        즉 부모객체의 fly메소드를 부르는 행위임
+//        필요없으니 주석처리완료
+//        super.fly()
+        println("${color}의 ${name}이 날아봅니다~ 짹짹!")
+    }
+}
+
+class Pigeon(name: String, address: String) : Bird(name) {
+    var address: String = ""
+
+    init {
+        this.address = address
+    }
+
+    override fun fly() {
+//        super객체는 부모의 객체를 의미하며 자동으로 생성됨
+//        즉 부모객체의 fly메소드를 부르는 행위임
+//        필요없으니 주석처리완료
+//        super.fly()
+        println("${address} 살고있는 ${name}가 날아봅니다~ 구구!")
+    }
+}
+```
+
+</br>
+</br>
+
+## 7. 오버로딩
+
+### 1) 정의
+
+- 매개변수의 갯수 or 자료형을 다르게 하면 동일한 이름으로 메소드 만들기 가능
+- 반환자료형(반환형)은 오버로딩에 영향 X
+
+</br>
+
+### 2) 사용 이유
+
+- 두 개의 정수를 매개변수로 받아 더하는 메소드 add
+- 두 개의 실수를 매개변수로 받아 더하는 메소드도 add라고 만들고 싶을 때
+- 매개변수 자료형이 정수, 실수로 다르기 때문에 오버로딩 해결 가능
+
+- addInt, addDouble 메소드를 따로 만들면 나중에 관리 힘듦
+
+</br>
+
+### 3) 예시
+
+- 정수나 실수값 두 개를 매개변수로 받아 덧셈 결과를 리턴해주는 add메소드
+
+```kotlin
+package com.example.myapplication
+
+fun main() {
+    var calc = Calculator()
+
+    var intResult = calc.add(1,2)
+    var doubleResult = calc.add(1.2, 2.2)
+
+    println("정수 덧셈결과: ${intResult}")
+    println("실수 덧셈결과: ${doubleResult}")
+
+}
+
+class Calculator {
+
+    //매개변수 타입, 개수가 다르면 오버로딩 가능
+    fun add(num1: Int, num2: Int): Int {
+        return num1+num2
+    }
+
+    fun add(num1: Double, num2: Double): Double {
+        return num1+num2
+    }
+}
+```
+
+</br>
+</br>
+
+## 8. 인터페이스
+
+### 1) 정의
+
+<aside>
+💡 **문제**
+
+- 부모 클래스 Bird이지만 새에도 많은 종류가 있고 행동도 다름
+- 닭, 참새, 비둘기 (날다) ↔ 오리 (헤엄치다)
+- 코틀린에서 반드시 부모 클래스는 1개이므로 모두 상속으로 처리 X
+</aside>
+
+- 근본적인 공통점을 상속 받고, 추가적인 기능들은 인터페이스로 추가
+- interface 키워드 사용
+
+</br>
+
+### 2) 인터페이스 구조
+
+- 추상 메소드 : 메소드 로직 존재 X
+- 최근, 추상 메소드가 아니여도 괜찮음
+
+```kotlin
+interface 인터페이스이름 {
+	fun 메소드이름() //추상 메소드 : 메소드 로직 존재 X
+}
+```
+
+</br>
+
+### 3) 예시
+
+- WaterBirdBehavior.kt
+
+```kotlin
+interface WaterBirdBehavior {
+    fun swim()
+//    fun swim() {
+//        println("수영 합니다")
+//    }
+}
+```
+
+- test.kt
+
+```kotlin
+fun main() {
+    var bird = Bird("새")
+    var chicken = Chicken("닭")
+    var sparrow = Sparrow("참새")
+    var pigeon = Pigeon("비둘기")
+    var duck = Duck("오리")
+
+    bird.fly()
+    chicken.fly()
+    sparrow.fly()
+    pigeon.fly()
+    duck.swim()
+}
+
+open class Bird(name:String) {
+    var name: String = ""
+
+    init {
+        // this는 현재 클래스의 상태변수를 의미합니다
+        // var name: String = ""
+        this.name = name
+    }
+
+    fun fly() {
+        println("${name} 날아요~")
+    }
+
+}
+
+class Chicken(name: String) : Bird(name) {
+
+}
+
+class Sparrow(name: String) : Bird(name) {
+
+}
+
+class Pigeon(name: String) : Bird(name) {
+
+}
+
+//인터페이스 연결해서 오버라이딩
+class Duck(name: String) : Bird(name), WaterBirdBehavior {
+    override fun swim() {
+        println("${name}가 수영해요~")
+    }
+}
+```
+
+</br>
+</br>
+
+### 실습 : 텍스트 RPG 게임에 이벤트 추가
+
+- Monster.kt
+
+```kotlin
+open class Monster {
+    open fun attack() {
+        println("공격!")
+    }
+}
+```
+
+- Character.kt
+
+```kotlin
+open class Character {
+    open fun attack() {
+        println("기본 공격!")
+    }
+}
+```
+
+- GreenSlimeSkill.kt
+
+```kotlin
+interface GreenSlimeSkill {
+    fun poison()
+}
+```
+
+- Slime.kt
+
+```kotlin
+//부모 클래스 Monster, 인터페이스 GreenSlimeSkill
+class Slime : Monster, GreenSlimeSkill {
+    var name:String = ""
+    var color:String = ""
+    var height:Double = 0.0
+    var hp:Int = 0
+    var damage:Int = 0
+
+    constructor(_name:String, _color:String, _height:Double, _hp:Int, _damage:Int) {
+
+        name = _name
+        color = _color
+        height = _height
+        hp = _hp
+        damage = _damage
+    }
+
+//부모 클래스 오버라이드
+    override fun attack() {
+        println("점성 공격!")
+    }
+
+    fun jumpAttack() {
+        println("점프해서 내려찍기!")
+    }
+
+//인터페이스 오버라이드
+    override fun poison() {
+        if(color == "초록") {
+            println("초록 독 퍼뜨리기!")
+        } else {
+            println("일반 슬라임은 사용할 수 없습니다.")
+        }
+    }
+}
+```
+
+- Zombie.kt
+
+```kotlin
+class Zombie : Monster {
+    var name:String = ""
+    var color:String = ""
+    var height:Double = 0.0
+    var hp:Int = 0
+    var damage:Int = 0
+
+    constructor(_name:String, _color:String, _height:Double, _hp:Int, _damage:Int) {
+        println("${name}좀비 생성")
+        name = _name
+        color = _color
+        height = _height
+        hp = _hp
+        damage = _damage
+    }
+
+    override fun attack() {
+        println("물어뜯기 공격!")
+    }
+
+    fun virus() {
+        println("바이러스 퍼뜨리기!")
+    }
+}
+```
+
+- Archer.kt
+
+```kotlin
+class Archer : Character {
+    var name:String = ""
+    var age:Int = 0
+    var gender:String = ""
+    var money:Int = 0
+    var hp:Int = 0
+
+    constructor(_name:String, _age:Int, _gender:String, _money:Int, _hp:Int) {
+        println("${name}궁수 생성")
+        name = _name
+        age = _age
+        gender = _gender
+        money = _money
+        hp = _hp
+    }
+
+    override fun attack() {
+        println("활쏘기!")
+    }
+
+    fun windArrow() {
+        println("바람의 화살!!")
+    }
+
+    fun windJump(destination:String) {
+        println("${destination}까지 도약!")
+    }
+}
+```
+
+- Wizard.kt
+
+```kotlin
+class Wizard : Character {
+    var name:String = ""
+    var age:Int = 0
+    var gender:String = ""
+    var money:Int = 0
+    var hp:Int = 0
+    var mp:Int = 0
+
+    constructor(_name:String, _age:Int, _gender:String, _money:Int, _hp:Int, _mp:Int) {
+        println("${name}마법사 생성")
+        name = _name
+        age = _age
+        gender = _gender
+        money = _money
+        hp = _hp
+        mp = _mp
+    }
+
+    override fun attack() {
+        println("에너지 볼!")
+    }
+
+    fun fireBall() {
+        println("파이어 볼!")
+    }
+
+    fun teleport(src:Int, dst:Int) {
+        println("${src}에서 ${dst}로 텔레포트!")
+    }
+}
+```
+
+- WorldMain.kt
+
+```kotlin
+fun main() {
+    val worldName = "스코월드"
+
+    println("이름을 입력해주세요")
+    var myName = readLine()!!
+
+    println("나이를 입력해주세요")
+    var myAge = readLine()!!.toInt()
+
+    println("직업을 입력해주세요")
+    var myJob = readLine()!!
+
+    println("성별을 입력해주세요")
+    var myGender = readLine()!!
+
+    println("초기자본을 입력해주세요")
+    var myMoney = readLine()!!.toInt()
+
+    println("초기체력 입력해주세요")
+    var myHp = readLine()!!.toInt()
+    var myMp = 0
+
+    var isNamePass = true
+    var isAgePass = true
+    var isJobPass = true
+
+    var names = arrayOf("참새", "꿩", "비둘기")
+    for(name in names) {
+        if(myName == name) {
+            println("중복된 이름이 존재합니다.")
+            isNamePass = false
+            break
+        }
+    }
+
+    if(myAge < 12) {
+        println("12세 미만은 이용할 수 없습니다.")
+        isAgePass = false
+    }
+    if(myJob == "전사") {
+        println("일시적으로 전사를 이용할 수 없습니다.")
+        isJobPass = false
+    }
+
+    // 모든 조건을 통과한 경우에만 환영
+    if(isNamePass && isAgePass && isJobPass) {
+        displayInfo(worldName, myName, myAge, myJob)
+
+        if(myJob == "마법사") {
+            println("마법사는 초기 mp도 입력해주세요")
+            myMp = readLine()!!.toInt()
+            var myCharacter = Wizard(myName, myAge, myGender, myMoney, myHp, myMp)
+
+            println("던전을 선택해주세요")
+            println("[1] 슬라임동굴, [2] 좀비마을")
+            var selectWorld = readLine()!!.toInt()
+            selectWorldByWizard(selectWorld, myCharacter)
+
+        } else if(myJob == "궁수") {
+            println("궁수를 선택했군요")
+            var myCharacter = Archer(myName, myAge, myGender, myMoney, myHp)
+
+            println("던전을 선택해주세요")
+            println("[1] 슬라임동굴, [2] 좀비마을")
+            var selectWorld = readLine()!!.toInt()
+            selectWorldByArcher(selectWorld, myCharacter)
+        }
+    }
+}
+
+fun displayInfo(worldName:String, myName:String, myAge:Int, myJob:String) {
+    println("==================${worldName}에 오신것을 환영합니다==================")
+    println("당신의 정보는 다음과 같습니다.")
+    println("이름: ${myName}입니다.")
+    println("나이: ${myAge}입니다.")
+    println("직업: ${myJob}입니다.")
+    println("모험을 떠나 볼까요?")
+}
+
+fun selectWorldByArcher(selectWorld:Int, myCharacter: Archer) {
+    if(selectWorld == 1) { // 슬라임 던전
+        var slime1 = Slime("초록슬라임", "초록", 30.2, 200, 10)
+        slime1.attack()
+        myCharacter.windArrow()
+
+        slime1.poison() //초록 독 퍼뜨리기!
+
+    } else if(selectWorld == 2) { // 좀비 던전
+        var zombie1 = Zombie("파랑좀비", "파랑", 142.2, 500, 25)
+        zombie1.virus()
+        myCharacter.windJump("건물1")
+    }
+}
+
+fun selectWorldByWizard(selectWorld:Int, myCharacter: Wizard) {
+    if(selectWorld == 1) { // 슬라임 던전
+        var slime1 = Slime("파랑슬라임", "파랑", 30.2, 200, 10)
+        slime1.attack()
+        myCharacter.attack()
+
+        slime1.poison() //일반 슬라임은 사용할 수 없습니다.
+
+    } else if(selectWorld == 2) { // 좀비 던전
+        var zombie1 = Zombie("파랑좀비", "파랑", 142.2, 500, 25)
+        zombie1.virus()
+        myCharacter.fireBall()
+    }
+}
+```
