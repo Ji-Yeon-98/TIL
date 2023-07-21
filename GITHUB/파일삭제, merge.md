@@ -76,7 +76,7 @@ dev : 중간 저장 branch
 ```
 
 - 웹페이지에서 수정 후 merge
-- pull로 변경된 사항 가져온 뒤 수정
+- AndroidStudio -> Git -> Resolve 통해 수정
 
 ```
 
