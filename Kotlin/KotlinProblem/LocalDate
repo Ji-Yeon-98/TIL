@@ -1,0 +1,37 @@
+## 1. 날짜 비교
+
+#### 날짜 세팅
+
+
+- 현재 날짜 가져오기
+
+```
+//LocalDate 자료형 
+val todayDate = LocalDate.now()
+println(todayDate) //2023-07-21
+
+val todaytime = LocalDatetime.now()
+println(todaytime) //
+```
+
+```
+//java.time.format.DateTimeFormatter 객체인 formatter 생성 
+//원하는 날짜 형식을 지정하여 해당 표기형식으로 날짜 변경
+val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+
+//current 상수 날짜 표기형식을 yyyyMMdd으로 바꿈 (String 자료형으로 변환)
+val today = current.format(formatter)
+println(today) //20230721
+```
+
+</br>
+
+- 입력받은 날짜 가져오기
+
+```
+val inputCheckInDate = readLine()
+
+
+checkInDate = LocalDate.parse(inputCheckInDate, formatter)
+
+```
