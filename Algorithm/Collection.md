@@ -104,46 +104,6 @@ println("contains test : $result") //contains test : false
 
 ```
 
-</br>
-
-- Map의 경우 : containsKey(key), containsValue(value) 
-```
-
-val map = mapOf("a" to 1, "b" to 2, "c" to 3)
-
-// 키 "a"가 Map에 있는지 확인
-val containsKey = map.contains("a")
-println(containsKey) // true
-
-// 값 2가 Map에 있는지 확인
-val containsValue = map.containsValue(2)
-println(containsValue) // true
-
-// in 연산자를 이용하여 키 "c"가 Map에 있는지 확인
-val keyExists = "c" in map
-println(keyExists) // true
-
-```
-
-</br>
- 
- ### Map 요소 변경 함수 : mapKeys(), mapValues()
-
- - mapKeys() : 키 값 변경, value 유지
- - mapValues() : value 값 변경, key 유지
-
- ```
-
- val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key11" to 11)
- 
-println(numbersMap.mapKeys { it.key.uppercase() }) //uppercase() : 대문자로 바꾸기
-//{KEY1=1, KEY2=2, KEY3=3, KEY11=11}
-
-println(numbersMap.mapValues { it.value + it.key.length })
-//{key1=5, key2=6, key3=7, key11=16}
-
- ```
-
  </br>
  </br>
 
@@ -180,6 +140,9 @@ listOf(1, 5, 2).sorted().forEach { println(it) } //1, 2, 5
 listOf(1, 3, 2).sortedBy { it % 3 }.forEach { println(it) } //3, 1, 2
 
 ```
+
+</br>
+</br>
 
 ## 4. 필터링 함수
 
