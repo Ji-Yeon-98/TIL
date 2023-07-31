@@ -67,6 +67,16 @@ println(intArray.contentToString()) // 해시코드 -> 문자열 변환 출력
 
 </br>
 
+- List[int] -> intarray 변환
+```
+
+
+
+```
+
+
+</br>
+
 #### 확장 함수 plus()
 - 요소 추가 X
 - 새로운 배열 생성

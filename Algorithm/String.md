@@ -19,6 +19,8 @@ my_string.toCharArray().forEach { i ->
 
 </br>
 
+## 2. 리스트 -> 문자열
+
 ### joinToString
 
 - 리스트의 원소들을 하나의 문자열로 만들기
@@ -31,3 +33,5 @@ println("ml.joinToString("")")                      //ABC
 println(ml.joinToString("->", "start ", " end"))    //start A->B->C end
 
 ```
+
+</br>
