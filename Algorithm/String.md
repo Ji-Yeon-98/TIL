@@ -18,6 +18,7 @@ my_string.toCharArray().forEach { i ->
 ```
 
 </br>
+</br>
 
 ## 2. 리스트 -> 문자열
 
@@ -35,3 +36,41 @@ println(ml.joinToString("->", "start ", " end"))    //start A->B->C end
 ```
 
 </br>
+</br>
+
+## 3. 문자열 자르기, 나누기, 분할
+
+### substring
+
+```
+
+var my_string = "Hello World!"
+
+println(my_string.substring(2)) //llo World!
+println(my_string.substring(0,3)) //Hel
+
+```
+</br>
+
+### split
+```
+
+var my_string = "Hello/World!/String*Split"
+
+val split1 = my_string.split("/")                   //[Hello, World!, String*Split]
+val split2 = my_string.split("/", "*")              //[Hello, World!, String, Split]
+val split3 = my_string.split("/", limit = 2)        //[Hello, World!/String*Split]
+
+```
+
+</br>
+
+### chunked
+```
+
+var my_string = "HelloWorld!"
+
+val chunked1 = my_string.chunked(3) //[Hel, loW, orl, d!]
+val chunked2 = my_string.chunked(4) //[Hell, oWor, ld!]
+
+```

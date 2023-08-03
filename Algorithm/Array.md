@@ -70,7 +70,10 @@ println(intArray.contentToString()) // 해시코드 -> 문자열 변환 출력
 - List[int] -> intarray 변환
 ```
 
+var intList:List<Int> = listOf(1, 2, 3, 4)
+var intArray:IntArray = intList.toIntArray()
 
+println(intArray.contentToString())
 
 ```
 
