@@ -252,3 +252,19 @@ val dots: List<IntArray> =
 val maxX = dots.maxBy { it[0] } //[1, 1]
 
 ```
+
+</br>
+</br>
+
+## 6. Filter() + Map()
+
+- 합쳐서 사용 : filter 조건에 해당하는 요소를 변환시켜 새로운 리스트 생성
+
+```
+
+var numlist = intArrayOf(4, 5, 6, 7, 8, 9, 10, 11, 12)
+
+var answer = numlist.filter { it % n == 0 }.map { it*2 }
+println(answer) // [12, 18, 24]
+
+```
