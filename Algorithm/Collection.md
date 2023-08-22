@@ -17,6 +17,30 @@ numbersList.forEach { number ->
 
 </br>
 
+### forEachIndexed
+- 각 요소뿐만 아니라 해당 요소의 index 까지 사용
+
+```
+
+val list = listOf<Int>(0, 1, 2, 3, 4)
+val array = arrayListOf<IntArray>(intArrayOf(0, 1), intArrayOf(1, 2), intArrayOf(2, 3))
+
+
+list.forEachIndexed{ index, value -> println(index * value)}
+// 출력 : 0 1 4 9 16
+
+
+array.forEachIndexed{index, value ->
+        for(i in index until array.size){
+            println(value[0] + array[i][1])
+        } }
+    
+// 출력 : 1 2 3 3 4 5
+
+```
+
+</br>
+
 ### map() 
 - 각 원소를 원하는 형태로 변환해서 새 컬렉션 만듦 
 - 원소의 개수는 같고 원소의 값은 변환

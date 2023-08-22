@@ -105,3 +105,17 @@ var numList:IntArray = intArrayOf(1, 2, 5, 5, 7)
 println(numList.reversedArray().contentToString())
 
 ```
+
+</br>
+
+#### distinct() : 중복 원소 제거
+
+```
+
+val list = listOf<Int>(1, 2, 3, 4, 5, 3, 2, 1, 5, 6)
+val cList = mutableListOf<Char>('A', 'a', 'B', 'b', 'C', 'a', 'A', 'c')
+
+println(list.distinct())    // 출력 : [1, 2, 3, 4, 5, 6]
+println(cList.distinct())    // 출력 : [A, a, B, b, C, c]
+
+```
